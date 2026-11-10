@@ -119,7 +119,7 @@
   - 2026-11-10, round 1 — request_changes: пин Y-оси (min/max полного
     факта) не закреплён — добавлен шаг «И ось Y размечена по полному
     факту» ('201'), мутант (e) «ось по показанной части» убит
-- status: doing
+- status: done
 
 ### FP-004: Reveal и бесконечная лента
 - files: src/reveal.js, src/app.js (расширение), src/style.css,
