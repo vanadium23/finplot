@@ -249,7 +249,22 @@
 - out of scope: изменение формул score/others, поведение кнопок
 - AC: e2e 2 сценария зелёные; скрины fp-007-desktop.png (1280×800) и
   fp-007-mobile.png (390×844) — линия непрерывна; make test зелёный
-- status: todo
+- Ход работы:
+  - 2026-11-10, worktree fp-007 — RED (b28e13e): «Линия растёт из конца
+    истории» (draw.feature) + «Все три линии начинаются из якоря»
+    (reveal.feature); оракул двойной — атрибуты points (первая вершина
+    == последняя вершина polyline.history, точное равенство) и
+    getBoundingClientRect (левый край линии == правый край истории);
+    на разрыве 2 failed / 21 passed (585.6 против 525.9)
+  - GREEN (1d2e325): chart.js — anchorPoint(round): последняя
+    показанная точка points[cutoffIndex-1] через makeScales; draw.js —
+    якорь первой вершиной polyline игрока (пустой drawn — линии нет);
+    reveal.js — тот же якорь у факта, «Других» и ensurePlayerLine;
+    значения/формулы не тронуты — только геометрия полилиний
+  - степ «появляется линия факта скрытых лет»: вершин = скрытые + 1
+    (якорь); make test 23 passed ×2; скрины seed=42 после раскрытия —
+    якорь 525.87,334.31 совпал бит-в-бит на desktop и mobile
+- status: done
 
 ## Волны
 
