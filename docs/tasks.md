@@ -32,7 +32,13 @@
   - прогон: 490 ранжируемых → топ-160 → 126 валидных → первые 100; seed-сверка: порядок первых 100 == dataset_seed3
   - спот-чек AMZN/CSCO/AMAT (обе метрики, первый+последний год) против кэша: PASS; инварианты exit 0
   - built_at из max filed данных (не из часов); повторный прогон: sha256 совпал, SAME
-- status: done
+- Rejected findings:
+  - [r1] mobile тики/подписи плотные — территория FP-005.
+  - [r1] boundingBox SVG ink-box и When→Then→When — уроки в pending на bdd-standard.
+  - [r1] enableDraw {onChange} vs design {onComplete} — расхождение формулировок, семантика шире.
+  - [r1] некруглые метки Y (52/101/151) — стиль разметки, полировка FP-005.
+  - [r1] мутант (f) HTML-disabled — эквивалентен (boot() дизейблит после fetch), правомерно пережил.
+- status: done — review: r1 request_changes (пин Y-оси), фикс d475470, r2 approve 2026-11-10
 
 - review: approve 2026-11-10 (кроссчек 100 компаний, спот MSFT/BA/DE, мутации 3 killed + 1 эквивалентный).
 
