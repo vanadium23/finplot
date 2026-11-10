@@ -50,6 +50,16 @@ export function makeScales(round) {
   };
 }
 
+// FP-007: якорь непрерывности — последняя показанная точка истории
+// (points[cutoffIndex - 1]). Дорисовка игрока, линия факта и «Другие»
+// обязаны начинаться с неё: дорисовка растёт из конца истории, а не
+// из пустой точки среза.
+export function anchorPoint(round) {
+  const { x, y } = makeScales(round);
+  const last = round.points[round.cutoffIndex - 1];
+  return { x: x(last.year), y: y(last.value) };
+}
+
 export function renderChart(container, round) {
   const { x, y, yMin, yMax } = makeScales(round);
   const shown = round.points.slice(0, round.cutoffIndex);

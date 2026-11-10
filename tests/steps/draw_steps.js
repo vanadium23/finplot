@@ -230,4 +230,31 @@ Then('все годы прогноза пусты', async ({}) => {
   await expect(state.page.locator(`${CHART} circle.drawn`)).toHaveCount(0);
 });
 
+// FP-007: якорь непрерывности — дорисовка растёт из конца истории:
+// первая вершина polyline игрока обязана совпасть с последней вершиной
+// polyline истории. Сверка двойная: атрибуты points (общая геометрия
+// шкал, точное равенство) и экранная геометрия getBoundingClientRect
+// (левый край линии игрока = правый край истории).
+Then('линия игрока начинается с конца линии истории', async ({}) => {
+  const [playerFirst, historyLast, playerLeft, historyRight] = await state.page.evaluate(() => {
+    const vertices = (selector) =>
+      document
+        .querySelector(selector)
+        .getAttribute('points')
+        .split(' ')
+        .map((pair) => pair.split(',').map(Number));
+    const box = (selector) => document.querySelector(selector).getBoundingClientRect();
+    const history = box('#chart polyline.history');
+    return [
+      vertices('#chart polyline.player')[0],
+      vertices('#chart polyline.history').at(-1),
+      box('#chart polyline.player').x,
+      history.x + history.width,
+    ];
+  });
+  expect(playerFirst[0], 'x первой вершины игрока').toBe(historyLast[0]);
+  expect(playerFirst[1], 'y первой вершины игрока').toBe(historyLast[1]);
+  expect(Math.abs(playerLeft - historyRight), 'левый край игрока на экране').toBeLessThanOrEqual(1);
+});
+
 export { test };
