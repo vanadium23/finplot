@@ -142,28 +142,21 @@
 - AC: e2e-reveal зелёной; подпись заглушки видима; очки считаются как в
   FP-002; скрины двух состояний
 - Ход работы:
-  - 2026-11-10, worktree fp-004 — RED: фича reveal.feature (6 сценариев
-    спеки 1:1) + степы; прогон 6 failed на пустом #result
-  - GREEN: reveal.js — renderReveal в том же SVG: факт скрытых лет,
-    «Другие (заглушка)» с подписью у линии, легенда Ты/Факт/Другие;
-    блок «Очки: N» + «Средний промах: X.X $ млрд» (входы score — в
-    data-атрибутах для сверки степа с ядром); app.js — монтирование
-    раунда, «Следующий график» = полный ре-рендер, счётчик в памяти;
-    ввод после раскрытия закрыт (pointer-events + снятие tabindex),
-    «Стереть» недоступна
-  - скрины AC: fp-004-reveal-desktop.png (1280×800) + mobile (390×844),
-    раунд 1 после раскрытия, seed 42
-  - уловки: скобки и слеши в тексте шага — только regexp-определения
-    (cucumber-выражение матчит «(…)» как необязательную группу, «/» —
-    альтернативы: литерал не проходит); units-мутант «промах в $ млрд»
-    пойман на скрине (сырые доллары) и убит шагом-сверкой score/1e9
-  - rng: пины раундов META→PG→PSX воспроизводит ТОЛЬКО цепь pickRound
-    без потребления между раундами (пробы skip=0..20: композиция из
-    research-файла даёт CMI/OKE) → roundRng на pickRound (2 числа/раунд)
-    + othersRng того же seed на pseudoOthers (len−1 за раскрытие);
-    расхождение с заметкой research — pending диспетчеру
+  - 2026-11-10, worktree fp-004: RED (6 failed на пустом #result) → GREEN:
+    reveal.js renderReveal (факт скрытых лет, «Другие (заглушка)», очки +
+    средний промах со входами score в data-атрибутах), app.js (лента =
+    полный ре-рендер, ввод после раскрытия закрыт pointer-events +
+    снятие tabindex), скрины AC desktop+mobile, уловка: скобки/слеши в
+    шагах — только regexp, units-мутант убит сверкой score/1e9
+  - rng: пины META→PG→PSX даёт только цепь pickRound (roundRng 2 числа/
+    раунд + othersRng на pseudoOthers); расхождение с research — pending
+    диспетчеру
   - make test зелёный ×2: 21 passed (lint + logic 9 + draw 6 + reveal 6)
-- status: done — check-stand на :41007 остаётся за FP-006
+  - round 1: request_changes D-1 — слабый oracle сценария 5 (драг на той
+    же высоте — Then вакуумный); фикс: драг на верхней восьмой зоны +
+    ассерт computed pointer-events=none; мутант (e) убит — RED сценария 5
+    при снятом class revealed, полный прогон 21 passed
+- status: doing — фикс D-1 раунда 1 ревью
 
 ### FP-005: RU-минимализм и мобильная доводка
 - files: src/style.css, index.html

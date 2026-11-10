@@ -226,15 +226,30 @@ Then('URL страницы не менялся', async ({}) => {
   expect(state.page.url()).toBe(`${BASE}/${PIN_URL}`);
 });
 
-// Сценарий 5: тянем линию обычным драгом; ввод после раскрытия отключён.
+// Сценарий 5: пробный драг идёт на другой высоте (верхняя восьмая зоны) —
+// на высоте исходного рисования живой ввод повторил бы те же точки и
+// Then прошёл бы вакуумно.
 When('пробую тянуть линию в зоне прогноза', async ({}) => {
   const page = state.page;
   state.playerPoints = await page.locator(`${CHART} polyline.player`).getAttribute('points');
-  await drawAllForecastYears(page);
+  const { from, to } = await forecastRange(page);
+  const fbox = await page.locator(`${CHART} rect.forecast`).boundingBox();
+  await dragMouse(
+    page,
+    await yearTickX(page, from),
+    await yearTickX(page, to),
+    fbox.y + fbox.height / 8,
+  );
 });
 
 Then('нарисованная мной линия не меняется', async ({}) => {
-  const points = await state.page.locator(`${CHART} polyline.player`).getAttribute('points');
+  const page = state.page;
+  // Ввод закрыт на уровне стилей: computed pointer-events обязан быть none.
+  const pointerEvents = await page.evaluate(
+    () => getComputedStyle(document.querySelector('#chart')).pointerEvents,
+  );
+  expect(pointerEvents).toBe('none');
+  const points = await page.locator(`${CHART} polyline.player`).getAttribute('points');
   expect(points).toBe(state.playerPoints);
 });
 
