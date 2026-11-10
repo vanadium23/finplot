@@ -57,7 +57,13 @@
 - out of scope: SVG, UI, события мыши
 - AC: logic-фичи зелёные; негативные сценарии: битый JSON, ряд с дырой,
   <12 точек; числа спеки посчитаны живым прогоном на фикстуре
-- status: doing
+- Rejected findings:
+  - [r1] bddgen пишет в .features-gen/ при output '.bdd-gen' — вольность v9, оба в gitignore.
+  - [r1] pickRound(companies, rng) vs (dataset, rng) в design — расхождение формулировок, семантика та же.
+  - [r1] src/rng.js вне files: — санкционированный мост (mulberry32 в design карточки).
+  - [r1] узкий kill-set мутанта max-vs-mean — сценарий 3 эквивалентен на нулях, сценарий 4 различает.
+  - [r2] CI-аннотации Node 20 deprecated / ubuntu-latest — предупреждения раннера, вне карточки.
+- status: done — review: r1 request_changes D-1 (пин потока rng), фикс 5fcf1dd, r2 approve 2026-11-10
 - ход работы: 2026-11-10, worktree fp-002 — RED: фича + степы на пустых
   модулях (6fb06fd) → GREEN: src/{data,round,score,others,rng}.js;
   mulberry32 — бит-в-бит порт tools/spec_fp002_probe.py (потоки seed 42/7/
