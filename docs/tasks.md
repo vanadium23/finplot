@@ -89,9 +89,37 @@
   среза, затемнённая зона прогноза; кнопка «Открыть факт» активна только
   при полном ряде
 - out of scope: экран reveal (FP-004), стиль-полировка (FP-005)
-- AC: e2e-draw зелёвой; драг рисует все годы; неполный ряд держит кнопку
+- AC: e2e-draw зелёной; драг рисует все годы; неполный ряд держит кнопку
   disabled; скрины desktop (1280px) + mobile (390px) в docs/acceptance/
-- status: todo
+- Ход работы:
+  - 2026-11-10, worktree fp-003 — RED (e0500f0): фича
+    tests/features/e2e/draw.feature, 6 сценариев спеки 1:1; пин seed 42 →
+    META · выручка (показано 2010–2018, рисовать 2019–2025) сверен живым
+    прогоном на прод-датасете; степы draw_steps.js падают на пустой
+    странице
+  - GREEN (c6e3864): chart.js — рукописный SVG и makeScales (ось Y =
+    min/max полного факта + обратные шкалы для draw), история, пунктир
+    среза между 2018/2019, затемнённая зона; draw.js — Pointer Events
+    одной дорожкой (мышь+палец), драг интерполирует пропущенные годы,
+    клавиатура ←→ год ↑↓ значение (tabindex=0), кламп значения в ось;
+    app.js — seed из ?seed= иначе crypto, fetch → loadDataset →
+    pickRound → renderChart + enableDraw; «Открыть факт» disabled до
+    полного ряда, клик — заглушка (reveal в FP-004); «Стереть» чистит
+    слой игрока; webServer python3 http.server :8123 в playwright.config
+  - e2e 6/6: неполный ряд (6 из 7) держит кнопку disabled; touch — новый
+    context hasTouch 390×844, драг через CDP Input.dispatchTouchEvent,
+    реальный pointer-type touch доказан data-атрибутом; make test зелёный
+    весь: lint + logic 9 + e2e 6 = 15 passed, прогон повторён
+  - уловки в степы: keywords-in-logical-order запрещает When→Then→When —
+    второй When записан «И»-континуатором; Playwright boundingBox у SVG
+    возвращает ink-box со штрихом (+4px) — геометрия истории сравнивается
+    через getBoundingClientRect
+  - скрины AC: docs/acceptance/fp-003-desktop.png (1280×800),
+    fp-003-mobile.png (390×844) после загрузки seed=42
+  - 2026-11-10, round 1 — request_changes: пин Y-оси (min/max полного
+    факта) не закреплён — добавлен шаг «И ось Y размечена по полному
+    факту» ('201'), мутант (e) «ось по показанной части» убит
+- status: done
 
 ### FP-004: Reveal и бесконечная лента
 - files: src/reveal.js, src/app.js (расширение), src/style.css,
