@@ -4,8 +4,10 @@
 .PHONY: test-lint test-logic test-e2e test report check-stand stand-up stand-down
 
 test-lint:
-	node node_modules/.bin/gherkin-lint -r tests/lint-rules tests/features
-	python3 tests/lint-rules/check-ru-lexicon.py tests/features
+	@if ls tests/features/*/*.feature >/dev/null 2>&1; then \
+		node node_modules/.bin/gherkin-lint -r tests/lint-rules tests/features; \
+		python3 tests/lint-rules/check-ru-lexicon.py tests/features; \
+	else echo "lint: .feature ещё нет — пропуск"; fi
 
 test-logic:
 	npx bddgen && npx playwright test --project=logic --pass-with-no-tests
