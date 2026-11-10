@@ -189,6 +189,22 @@ Then('повторный прогон с seed {int} даёт ту же лини�
   expect(pseudoOthers(hiddenValues(), rng)).toEqual(state.others);
 });
 
+// Сценарий 9: бит-в-бит пин сырого потока mulberry32. Литералы сняты с
+// питон-референса tools/spec_fp002_probe.py (python repr); сравнение
+// toBe без допуска — грубые пины поглощали дрейф ~2e-6 и оставляли
+// зелёной сьюту с убитым финальным xor-shift14.
+Given('сырой поток mulberry32 с seed {int}', async ({}, seed) => {
+  state.rawRng = mulberry32(seed);
+});
+
+Then('сырой поток равен', async ({}, dataTable) => {
+  // raw(), а не rows(): rows() съедает первую строку как заголовок.
+  const expected = dataTable.raw().map((row) => Number(row[0]));
+  expected.forEach((value, i) => {
+    expect(state.rawRng(), `значение ${i}`).toBe(value);
+  });
+});
+
 // Сценарии 6-8: fail-fast loadDataset.
 When('loadDataset получает {string}', async ({}, text) => {
   state.loadError = tryLoadDataset(text);
