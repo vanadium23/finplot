@@ -107,7 +107,7 @@
 - out of scope: шеринг, сохранение прогресса
 - AC: e2e-reveal зелёвой; подпись заглушки видима; очки считаются как в
   FP-002; скрины двух состояний
-- status: todo
+- status: todo — стенд :41007 поднят досрочно 2026-11-10 (compose b7b53ec в faber-hermes-config, bind-mount); остаётся check-stand после FP-004
 
 ### FP-005: RU-минимализм и мобильная доводка
 - files: src/style.css, index.html
