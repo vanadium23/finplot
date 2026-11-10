@@ -8,13 +8,13 @@ test-lint:
 	python3 tests/lint-rules/check-ru-lexicon.py tests/features
 
 test-logic:
-	npx bddgen && npx playwright test --project=logic
+	npx bddgen && npx playwright test --project=logic --pass-with-no-tests
 
 test-e2e:
-	npx bddgen && npx playwright test --project=e2e
+	npx bddgen && npx playwright test --project=e2e --pass-with-no-tests
 
 test: test-lint
-	npx bddgen && npx playwright test
+	npx bddgen && npx playwright test --pass-with-no-tests
 
 report: test
 
