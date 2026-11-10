@@ -1,0 +1,15 @@
+{
+  "allowed-tags": ["on", {"tags": ["@logic", "@e2e", "@smoke", "@wip"]}],
+  "keywords-in-logical-order": "on",
+  "name-length": ["on", {"Feature": 70, "Scenario": 70, "Step": 100}],
+  "scenario-size": ["on", {"steps-length": {"Scenario": 10, "Rule": 10, "Background": 10}}],
+  "file-name": ["on", {"style": "kebab-case"}],
+  "no-dupe-scenario-names": "on",
+  "no-dupe-feature-names": "on",
+  "no-empty-background": "on",
+  "no-homogenous-tags": "on",
+  "no-superfluous-tags": "on",
+  "no-trailing-spaces": "on",
+  "require-scope-tag": "on",
+  "indentation": ["on", {"Feature": 0, "Background": 2, "Scenario": 2, "Step": 4, "Examples": 4}]
+}
