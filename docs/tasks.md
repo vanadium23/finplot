@@ -77,7 +77,8 @@
 
 ### FP-003: График и рисование
 - files: index.html, src/chart.js, src/draw.js, src/app.js, src/style.css,
-  tests/features/e2e/draw.feature, tests/steps/draw_steps.js
+  playwright.config.js (webServer на статику), tests/features/e2e/draw.feature,
+  tests/steps/draw_steps.js
 - design: pinned — `renderChart(container, round) -> {svg, x(year), y(value)}`;
   `enableDraw(svg, round, {onComplete})` — pointer events (мышь+touch),
   клавиатура ←→ год, ↑↓ значение; каждый год обязан иметь значение
