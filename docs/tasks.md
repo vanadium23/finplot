@@ -57,7 +57,17 @@
 - out of scope: SVG, UI, события мыши
 - AC: logic-фичи зелёные; негативные сценарии: битый JSON, ряд с дырой,
   <12 точек; числа спеки посчитаны живым прогоном на фикстуре
-- status: todo
+- status: doing
+- ход работы: 2026-11-10, worktree fp-002 — RED: фича + степы на пустых
+  модулях (6fb06fd) → GREEN: src/{data,round,score,others,rng}.js;
+  mulberry32 — бит-в-бит порт tools/spec_fp002_probe.py (потоки seed 42/7/
+  123456789 совпали с питон-референсом; первый порт пропустил финальный
+  xor-shift14 — поймано сверкой потоков); DRAMA flat-25 через node -e:
+  avgMiss = 5.428571428571429 = 38/7, points = 94; make test зелёный
+  (lint + logic 8/8)
+  round 1: request_changes D-1 (пины грубые) → пин сырого потока
+  mulberry32 добавлен (seed 42×6 + seed 7×3, toBe без допуска,
+  литералы с spec_fp002_probe.py); мутант (e) убит: RED → GREEN 9/9
 
 ### FP-003: График и рисование
 - files: index.html, src/chart.js, src/draw.js, src/app.js, src/style.css,
