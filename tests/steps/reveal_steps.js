@@ -271,4 +271,34 @@ Then(/^легенда из трёх подписей: моя\/факт\/друг
     .toHaveText(['Ты', 'Факт', 'Другие (заглушка)']);
 });
 
+// FP-007: якорь непрерывности — на раскрытии все три линии (игрок,
+// факт, «Другие») начинаются с последней точки истории: первая вершина
+// каждой polyline обязана совпасть с последней вершиной polyline
+// истории (атрибуты points + экранная геометрия getBoundingClientRect).
+Then('все три линии начинаются из конца истории', async ({}) => {
+  const [firsts, historyLast, lefts, historyRight] = await state.page.evaluate(() => {
+    const vertices = (selector) =>
+      document
+        .querySelector(selector)
+        .getAttribute('points')
+        .split(' ')
+        .map((pair) => pair.split(',').map(Number));
+    const box = (selector) => document.querySelector(selector).getBoundingClientRect();
+    const history = box('#chart polyline.history');
+    return [
+      ['player', 'fact', 'others'].map((cls) => vertices(`#chart polyline.${cls}`)[0]),
+      vertices('#chart polyline.history').at(-1),
+      ['player', 'fact', 'others'].map((cls) => box(`#chart polyline.${cls}`).x),
+      history.x + history.width,
+    ];
+  });
+  firsts.forEach(([vx, vy], index) => {
+    expect(vx, `x первой вершины линии ${index}`).toBe(historyLast[0]);
+    expect(vy, `y первой вершины линии ${index}`).toBe(historyLast[1]);
+  });
+  lefts.forEach((lx, index) => {
+    expect(Math.abs(lx - historyRight), `левый край линии ${index} на экране`).toBeLessThanOrEqual(1);
+  });
+});
+
 export { test };
