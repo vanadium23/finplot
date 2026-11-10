@@ -1,0 +1,104 @@
+:root {
+  --bg: #faf9f7;
+  --fg: #1a1a1a;
+  --muted: #8a8a8a;
+  --line: #d8d5d0;
+  --player: #0b57d0;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 16px;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+#round-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+#chart {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Палец рисует линию, а не скроллит страницу. */
+  touch-action: none;
+  outline: none;
+}
+
+#chart:focus-visible {
+  outline: 2px solid var(--player);
+}
+
+.history {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 2;
+}
+
+.player {
+  fill: none;
+  stroke: var(--player);
+  stroke-width: 2;
+}
+
+.drawn {
+  fill: var(--player);
+}
+
+.forecast {
+  fill: var(--fg);
+}
+
+.cutoff {
+  stroke: var(--muted);
+}
+
+.axis {
+  stroke: var(--line);
+}
+
+.tick {
+  stroke: var(--line);
+}
+
+#chart text {
+  fill: var(--muted);
+  font-size: 11px;
+  font-family: inherit;
+}
+
+.axis-caption {
+  font-size: 12px;
+}
+
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+button {
+  padding: 8px 16px;
+  font: inherit;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+button:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+#reveal:not(:disabled) {
+  border-color: var(--player);
+  color: var(--player);
+}

@@ -63,7 +63,7 @@ async function dragAcross(page, yearFrom, yearTo, how) {
   await how(page, x0, x1, y);
 }
 
-async function drawnDot(page, year) {
+function drawnDot(page, year) {
   return page.locator(`${CHART} circle.drawn[data-year="${year}"]`);
 }
 
@@ -96,10 +96,19 @@ Then('заголовок называет «Meta Platforms» и метрику �
 Then('линия истории идёт с {int} по {int} год', async ({}, from, to) => {
   const page = state.page;
   const raw = await page.locator(`${CHART} polyline.history`).getAttribute('points');
-  const xs = raw.split(' ').map((pair) => Number(pair.split(',')[0]));
-  expect(xs).toHaveLength(to - from + 1);
-  expect(Math.abs(xs[0] - (await yearTickX(page, from)))).toBeLessThanOrEqual(1);
-  expect(Math.abs(xs.at(-1) - (await yearTickX(page, to)))).toBeLessThanOrEqual(1);
+  expect(raw.split(' ')).toHaveLength(to - from + 1);
+  // Концы линии против тиков лет — в единой экранной геометрии
+  // (getBoundingClientRect: boundingBox Playwright у SVG даёт ink-box).
+  const [historyX, historyRight, tickFrom, tickTo] = await page.evaluate(
+    ([first, last]) => {
+      const rectX = (selector) => document.querySelector(selector).getBoundingClientRect().x;
+      const history = document.querySelector('#chart polyline.history').getBoundingClientRect();
+      return [history.x, history.x + history.width, rectX(`#chart line[data-year="${first}"]`), rectX(`#chart line[data-year="${last}"]`)];
+    },
+    [from, to],
+  );
+  expect(Math.abs(historyX - tickFrom)).toBeLessThanOrEqual(1);
+  expect(Math.abs(historyRight - tickTo)).toBeLessThanOrEqual(1);
 });
 
 Then('срез отмечен пунктиром после {int} года', async ({}, afterYear) => {
