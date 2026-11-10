@@ -46,7 +46,9 @@
 - out of scope: SVG, UI, события мыши
 - AC: logic-фичи зелёные; негативные сценарии: битый JSON, ряд с дырой,
   <12 точек; числа спеки посчитаны живым прогоном на фикстуре
-- status: todo
+- status: doing
+- ход работы: 2026-11-10 старт в worktree fp-002 — RED: фича + степы
+  на пустых модулях src/*.js
 
 ### FP-003: График и рисование
 - files: index.html, src/chart.js, src/draw.js, src/app.js, src/style.css,
