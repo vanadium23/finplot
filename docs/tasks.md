@@ -116,7 +116,10 @@
     через getBoundingClientRect
   - скрины AC: docs/acceptance/fp-003-desktop.png (1280×800),
     fp-003-mobile.png (390×844) после загрузки seed=42
-- status: done
+  - 2026-11-10, round 1 — request_changes: пин Y-оси (min/max полного
+    факта) не закреплён — добавлен шаг «И ось Y размечена по полному
+    факту» ('201'), мутант (e) «ось по показанной части» убит
+- status: doing
 
 ### FP-004: Reveal и бесконечная лента
 - files: src/reveal.js, src/app.js (расширение), src/style.css,

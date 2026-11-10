@@ -111,6 +111,23 @@ Then('линия истории идёт с {int} по {int} год', async ({},
   expect(Math.abs(historyRight - tickTo)).toBeLessThanOrEqual(1);
 });
 
+// Пин FP-003: верхняя метка оси Y = max ПОЛНОГО факта (правило FP-002:
+// факт обязан влезать при reveal). Скрытая часть 2019–2025 доходит до
+// 201.0 $ млрд → верхняя метка '201'; ось по показанной части дала бы 56.
+// Метки оси Y — text без класса левее оси (годовые тики — .tick-label,
+// подпись единиц — .axis-caption).
+Then('ось Y размечена по полному факту', async ({}) => {
+  const topLabel = await state.page.evaluate(() => {
+    const axisX = document.querySelector('#chart line.axis').getBoundingClientRect().x;
+    const labels = [...document.querySelectorAll('#chart text')]
+      .filter((t) => !t.classList.contains('tick-label') && !t.classList.contains('axis-caption'))
+      .filter((t) => t.getBoundingClientRect().right <= axisX)
+      .sort((a, b) => a.getBoundingClientRect().y - b.getBoundingClientRect().y);
+    return labels[0] ? labels[0].textContent : null;
+  });
+  expect(topLabel).toBe('201');
+});
+
 Then('срез отмечен пунктиром после {int} года', async ({}, afterYear) => {
   const page = state.page;
   const cutoff = page.locator(`${CHART} line.cutoff`);
