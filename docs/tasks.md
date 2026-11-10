@@ -139,9 +139,25 @@
 - must work: три линии (игрок/факт/«Другие (заглушка)»), очки + средний
   промах в единицах метрики, следующий раунд — другая компания
 - out of scope: шеринг, сохранение прогресса
-- AC: e2e-reveal зелёвой; подпись заглушки видима; очки считаются как в
+- AC: e2e-reveal зелёной; подпись заглушки видима; очки считаются как в
   FP-002; скрины двух состояний
-- status: todo — стенд :41007 поднят досрочно 2026-11-10 (compose b7b53ec в faber-hermes-config, bind-mount); остаётся check-stand после FP-004
+- Ход работы:
+  - 2026-11-10, worktree fp-004: RED (6 failed на пустом #result) → GREEN:
+    reveal.js renderReveal (факт скрытых лет, «Другие (заглушка)», очки +
+    средний промах со входами score в data-атрибутах), app.js (лента =
+    полный ре-рендер, ввод после раскрытия закрыт pointer-events +
+    снятие tabindex), скрины AC desktop+mobile, уловка: скобки/слеши в
+    шагах — только regexp, units-мутант убит сверкой score/1e9
+  - rng: пины META→PG→PSX даёт только цепь pickRound (roundRng 2 числа/
+    раунд + othersRng на pseudoOthers); расхождение с research — pending
+    диспетчеру
+  - make test зелёный ×2: 21 passed (lint + logic 9 + draw 6 + reveal 6)
+  - round 1: request_changes D-1 — слабый oracle сценария 5 (драг на той
+    же высоте — Then вакуумный); фикс: драг на верхней восьмой зоны +
+    ассерт computed pointer-events=none; мутант (e) убит — RED сценария 5
+    при снятом class revealed, полный прогон 21 passed
+- status: done — фикс D-1 раунда 1 ревью запушен; check-stand на :41007
+  остаётся за FP-006
 
 ### FP-005: RU-минимализм и мобильная доводка
 - files: src/style.css, index.html
