@@ -190,7 +190,10 @@
 - out of scope: prod-домены
 - AC: PORTS.md строка тем же коммитом; make check-stand зелёный на
   :41007; curl -I ...app.js → application/javascript (не octet-stream)
-- status: todo
+- status: done — стенд поднят 2026-11-10 (compose b7b53ec, PORTS.md той же
+  ходкой), mime mjs проверен; make check-stand зелёный 2026-11-10:
+  All 21 / Passed 21 / Failed 0; полный живой цикл проверен диспетчером
+  (reveal «Очки: 85», лента → PG, Раунд 2)
 
 ## Волны
 
