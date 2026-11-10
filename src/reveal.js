@@ -2,7 +2,7 @@
 // и «Других» (заглушка помечена явно — и подписью у линии, и легендой),
 // легенду из трёх подписей и блок результатов. Шкалы берёт из
 // makeScales — единственного источника геометрии графика и рисования.
-import { makeScales, MARGIN } from './chart.js';
+import { makeScales, MARGIN, anchorPoint } from './chart.js';
 import { score } from './score.js';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -44,7 +44,11 @@ function ensurePlayerLine(svg, round, guess) {
   if (!layer || layer.querySelector('polyline.player')) return;
   const { x, y } = makeScales(round);
   const hidden = round.points.slice(round.cutoffIndex);
-  const points = hidden.map((p, i) => ({ x: x(p.year), y: y(guess[i]) }));
+  const anchor = anchorPoint(round);
+  const points = [
+    anchor,
+    ...hidden.map((p, i) => ({ x: x(p.year), y: y(guess[i]) })),
+  ];
   layer.append(polylineOf('player', points));
 }
 
@@ -53,8 +57,17 @@ export function renderReveal(container, round, guess, others) {
   const svg = container.querySelector('svg');
   const hidden = round.points.slice(round.cutoffIndex);
 
-  const factPoints = hidden.map((p) => ({ x: x(p.year), y: y(p.value) }));
-  const otherPoints = hidden.map((p, i) => ({ x: x(p.year), y: y(others[i]) }));
+  // FP-007: факт и «Другие» тоже растут из якоря — все три линии
+  // выходят из конца истории, разрыв между 2018 и 2019 исчезает.
+  const anchor = anchorPoint(round);
+  const factPoints = [
+    anchor,
+    ...hidden.map((p) => ({ x: x(p.year), y: y(p.value) })),
+  ];
+  const otherPoints = [
+    anchor,
+    ...hidden.map((p, i) => ({ x: x(p.year), y: y(others[i]) })),
+  ];
   svg.append(polylineOf('fact', factPoints), polylineOf('others', otherPoints));
 
   // Подпись «Других» — у последней точки третьей линии, в зоне прогноза.

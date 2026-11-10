@@ -110,7 +110,9 @@ Then('появляется линия факта скрытых лет', async (
   const fact = state.page.locator(`${CHART} polyline.fact`);
   await expect(fact).toHaveCount(1);
   const points = await fact.getAttribute('points');
-  expect(points.split(' ')).toHaveLength(await hiddenPointCount(state.page));
+  // FP-007: первая вершина факта — якорь (последняя точка истории),
+  // поэтому вершин на одну больше скрытых лет.
+  expect(points.split(' ')).toHaveLength((await hiddenPointCount(state.page)) + 1);
 });
 
 Then('моя линия остаётся на экране', async ({}) => {

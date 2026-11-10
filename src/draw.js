@@ -5,6 +5,7 @@
 import {
   makeScales,
   formatBillions,
+  anchorPoint,
   VIEW_W,
   VIEW_H,
 } from './chart.js';
@@ -40,9 +41,15 @@ export function enableDraw(svg, round, { onChange = () => {} } = {}) {
     layer.replaceChildren();
     const years = [...drawn.keys()].sort((a, b) => a - b);
     if (years.length > 0) {
+      // FP-007: первая вершина — якорь непрерывности (конец истории),
+      // дорисовка растёт из последней известной точки, без разрыва.
+      const anchor = anchorPoint(round);
       layer.append(el('polyline', {
         class: 'player',
-        points: years.map((yr) => `${x(yr)},${y(drawn.get(yr))}`).join(' '),
+        points: [
+          anchor,
+          ...years.map((yr) => ({ x: x(yr), y: y(drawn.get(yr)) })),
+        ].map((p) => `${p.x},${p.y}`).join(' '),
       }));
       for (const yr of years) {
         const value = drawn.get(yr);
