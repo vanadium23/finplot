@@ -156,7 +156,8 @@
     же высоте — Then вакуумный); фикс: драг на верхней восьмой зоны +
     ассерт computed pointer-events=none; мутант (e) убит — RED сценария 5
     при снятом class revealed, полный прогон 21 passed
-- status: doing — фикс D-1 раунда 1 ревью
+- status: done — фикс D-1 раунда 1 ревью запушен; check-stand на :41007
+  остаётся за FP-006
 
 ### FP-005: RU-минимализм и мобильная доводка
 - files: src/style.css, index.html
