@@ -34,6 +34,8 @@
   - built_at из max filed данных (не из часов); повторный прогон: sha256 совпал, SAME
 - status: done
 
+- review: approve 2026-11-10 (кроссчек 100 компаний, спот MSFT/BA/DE, мутации 3 killed + 1 эквивалентный).
+
 ### FP-002: Ядро игры — чистые модули + замороженная фикстура
 - files: src/data.js, src/round.js, src/score.js, src/others.js,
   test/fixtures/mini-companies.json, tests/features/logic/game-core.feature,
