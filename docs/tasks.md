@@ -176,7 +176,34 @@
 - out of scope: тёмная тема, i18n-переключатель
 - AC: скрины iPhone-viewport: лента, рисование, reveal; ни одного
   латинского UI-текста (кроме тикеров/имён компаний)
-- status: todo
+- Ход работы:
+  - 2026-11-10, worktree fp-005 — CSS-only доводка; index.html не
+    потребовался (viewport/lang/RU-тексты уже на месте). Baseline-скрины
+    до правок сняты для сравнения, сьют 21 passed до и после
+  - тики лет: на ≤599px подпись каждого второго года скрыта —
+    #chart text.tick-label:nth-of-type(2n){display:none} (.tick-label —
+    первые text-сиблинги svg; линии тиков не скрыты — геометрия драга
+    цела); оставшиеся подписи крупнее 11→18 юнитов viewBox
+  - ось Y: classless text крупнее 11→17 — 4-символьные метки вида «2.3»
+    у края viewBox не срезаны; «$ млрд», легенда, подпись «Других»
+    12→16; x-атрибуты подписей не тронуты — пины «правее среза» целы
+  - заголовок: text-wrap: balance + overflow-wrap — 2 строки без сироты
+    «$ млрд» и без обрезки; кнопки: min-height 44px, touch-action:
+    manipulation, tap-highlight снят, active-фон, на ≤599px — столбик
+    на всю ширину; #chart: user-select: none (палец не выделяет текст)
+  - десктоп не затронут (media ≤599px): '201', тики каждого года,
+    легенда, pointer-events — все пины зелёные
+  - скрины AC: fp-005-mobile-draw.png / fp-005-mobile-reveal.png
+    (390×844), fp-005-desktop-reveal.png (1280×800), seed=42, драг по
+    rect.forecast как в draw_steps.js
+- Pending suggestions (JS вне скоупа, не правил):
+  - график 2:1 на 390px — лента ~179px высотой: мобильный aspect (MARGIN
+    в chart.js) — территория отдельной карточки
+  - после раскрытия «Стереть»/«Открыть факт» остаются видимыми disabled —
+    app.js может скрывать, лента станет компактнее
+  - некруглые метки Y (52/101/151) — разметка JS (Y_SEGMENTS=4), CSS
+    не лечит; LEGEND_ROW=18 плотноват при мобильном шрифте
+- status: done
 
 ### FP-006: Стенд :41007 + /testing-отчёт
 - files: faber-hermes-config/infra/finplot/{docker-compose.yml, nginx.conf,

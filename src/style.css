@@ -19,6 +19,9 @@ body {
   font-size: 1.05rem;
   font-weight: 600;
   margin: 0 0 4px;
+  /* Перенос заголовка на 2 строки без сирот вида «$ млрд» и без обрезки. */
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 #round-counter {
@@ -31,8 +34,10 @@ body {
   width: 100%;
   height: auto;
   display: block;
-  /* Палец рисует линию, а не скроллит страницу. */
+  /* Палец рисует линию, а не скроллит страницу; выделение текста
+     при драге тоже выключено. */
   touch-action: none;
+  user-select: none;
   outline: none;
 }
 
@@ -90,13 +95,22 @@ body {
 }
 
 button {
-  padding: 8px 16px;
+  /* Зона касания ≥44px: тап по кнопке, а не мимо неё. */
+  min-height: 44px;
+  padding: 10px 20px;
   font: inherit;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 8px;
   background: #ffffff;
   color: var(--fg);
   cursor: pointer;
+  /* Тап не ждёт двойного и не зумит страницу. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled):active {
+  background: #f0eee9;
 }
 
 button:disabled {
@@ -168,4 +182,54 @@ button:disabled {
 
 #avg-miss {
   margin: 4px 0 0;
+}
+
+/* FP-005: мобильная доводка — только на узких экранах. Десктоп
+   (1280, пины e2e на оси Y и тиках) media query не затрагивает. */
+@media (max-width: 599px) {
+  body {
+    padding: 12px;
+  }
+
+  #round-counter {
+    margin-bottom: 16px;
+  }
+
+  /* Тики лет слипались в строку: подпись каждого второго года скрыта.
+     .tick-label — первые text-сиблинги svg (Y-подписи и подписи осей
+     идут после них), поэтому nth-of-type(2n) адресует ровно чётные
+     годы; линии тиков не скрыты — геометрия драга не меняется. */
+  #chart text.tick-label:nth-of-type(2n) {
+    display: none;
+  }
+
+  /* Подписи лет и оси Y крупнее — SVG масштабируется целиком, размер
+     в px = user-юниты viewBox, заданы с запасом от среза левого края. */
+  #chart text.tick-label {
+    font-size: 18px;
+  }
+
+  #chart > text:not([class]) {
+    font-size: 17px;
+  }
+
+  #chart .axis-caption,
+  #chart .line-caption,
+  #chart .legend-label {
+    font-size: 16px;
+  }
+
+  /* Кнопки — в столбик на всю ширину: большие зоны касания и
+     «Следующий график» в досягаемости большого пальца. */
+  .controls {
+    flex-direction: column;
+  }
+
+  #result {
+    margin-top: 16px;
+  }
+
+  #score-value {
+    font-size: 1.3rem;
+  }
 }
