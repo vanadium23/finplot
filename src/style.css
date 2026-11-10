@@ -18,7 +18,13 @@ body {
 #round-title {
   font-size: 1.05rem;
   font-weight: 600;
+  margin: 0 0 4px;
+}
+
+#round-counter {
   margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 #chart {
@@ -101,4 +107,65 @@ button:disabled {
 #reveal:not(:disabled) {
   border-color: var(--player);
   color: var(--player);
+}
+
+/* FP-004: после раскрытия ввод в графике закрыт — повторный ввод
+   (мышь, палец) не меняет нарисованную линию. */
+#chart.revealed {
+  pointer-events: none;
+}
+
+/* Линия факта скрытых лет и линия «Других» (заглушка). */
+.fact {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+
+.others {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2;
+}
+
+#chart .line-caption {
+  fill: var(--muted);
+  font-size: 12px;
+}
+
+#chart .legend-label {
+  fill: var(--fg);
+  font-size: 12px;
+}
+
+.legend-swatch.player {
+  stroke: var(--player);
+  stroke-width: 2;
+}
+
+.legend-swatch.fact {
+  stroke: var(--fg);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+
+.legend-swatch.others {
+  stroke: var(--muted);
+  stroke-width: 2;
+}
+
+/* Блок результатов: очки и средний промах. */
+#result {
+  margin-top: 12px;
+}
+
+#score-value {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+#avg-miss {
+  margin: 4px 0 0;
 }

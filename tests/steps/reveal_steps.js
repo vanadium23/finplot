@@ -13,6 +13,7 @@ const { Given, When, Then } = createBdd();
 const BASE = 'http://localhost:8123';
 const CHART = '#chart';
 const PIN_URL = 'index.html?seed=42';
+const BILLIONS = 1e9; // единицы метрики на экране — $ млрд
 
 // Состояние сценария: воркер гоняет сценарии последовательно, каждый
 // Given переинициализирует state.page.
@@ -133,8 +134,26 @@ Then('показаны очки от 0 до 100', async ({}) => {
 });
 
 Then('средний промах показан в «$ млрд» с 1 знаком', async ({}) => {
-  const text = await state.page.locator('#avg-miss').textContent();
-  expect(text).toMatch(/Средний промах: \d+\.\d \$ млрд/);
+  // Единицы пиняем ядром: текст обязан равняться avgMiss от score(),
+  // переведённому в $ млрд, с одним знаком.
+  const inputs = await state.page.evaluate(() => {
+    const result = document.querySelector('#result');
+    return {
+      guess: result.dataset.guess,
+      actual: result.dataset.actual,
+      yMin: result.dataset.yMin,
+      yMax: result.dataset.yMax,
+      text: document.querySelector('#avg-miss').textContent,
+    };
+  });
+  const toNumbers = (csv) => csv.split(',').map(Number);
+  const { avgMiss } = score(
+    toNumbers(inputs.guess),
+    toNumbers(inputs.actual),
+    Number(inputs.yMin),
+    Number(inputs.yMax),
+  );
+  expect(inputs.text).toBe(`Средний промах: ${(avgMiss / BILLIONS).toFixed(1)} $ млрд`);
 });
 
 Then('счёт раунда «Раунд 1» виден', async ({}) => {
