@@ -1,0 +1,31 @@
+{
+  "name": "finplot",
+  "version": "0.1.0",
+  "description": "Игра «дорисуй график»: линия реальной годовой выручки или чистой прибыли US-компании обрывается на срезе (~60% истории) — игрок дорисовывает продолжение мышью или пальцем, затем видит факт, очки и средний промах. Бесконечная лента. Русский интерфейс, frontend-only.",
+  "main": "playwright.config.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanadium23/finplot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/vanadium23/finplot/issues"
+  },
+  "homepage": "https://github.com/vanadium23/finplot#readme",
+  "private": "true",
+  "devDependencies": {
+    "@onitofu/gherkin-lint": "^5.0.0",
+    "@playwright/test": "^1.65.0",
+    "playwright-bdd": "^9.2.1"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+testing/
+.bdd-gen/
+.features-gen/
+test-results/
+playwright-report/
+tools/cache/
+__pycache__/
+*.pyc
